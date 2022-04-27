@@ -51,7 +51,7 @@ class Board:
 
     def __repr__(self):
         layout = '------------------------------\n'
-        layout += 'P2:' + str(self.bowl[1]) + '      6 <-- 1   |\n       |'
+        layout += 'P2: ' + str(self.bowl[1]) + '     6 <-- 1   |\n       |'
         # show in reverse for player 1
         for p in reversed(self.board[6:14]):
             layout += str(p) + ' '
