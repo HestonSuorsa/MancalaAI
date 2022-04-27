@@ -81,7 +81,7 @@ class Board:
         return (self.bowl[0] + self.bowl[1]) == 48
 
     def __repr__(self):
-        layout = '--------------' + str(self.move_num) + '---------------\n'
+        layout = '--------------' + str(self.move_num) + '----------------\n'
         layout += 'P2:' + str(self.bowl[1]) + '      6 <-- 1   |\n       |'
         # show in reverse for player 1
         for p in reversed(self.board[6:14]):
