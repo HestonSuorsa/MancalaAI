@@ -61,3 +61,6 @@ class Board:
         layout += '|\n       |  1 --> 6      P1: ' + str(self.bowl[0]) + '\n--------------------------------'
         return layout
         
+    def deepcopy(board):
+        #TODO
+        return
