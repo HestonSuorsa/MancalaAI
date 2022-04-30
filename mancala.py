@@ -1,4 +1,5 @@
 import random
+from abLimitedDepth import abLimitedDepth
 
 from board import Board
 
@@ -9,14 +10,19 @@ if __name__ == '__main__':
     P2 = 1
     current_player = random.randint(0, 1)
 
+    # AI player = 0
+    abAI = abLimitedDepth(10,0)
+
     while not game_board.is_gameover():
         print(game_board)
-        position = int(input(f"P{current_player + 1}'s turn >"))
-        position = (position - 1) + (current_player * 6)
-        current_player = game_board.move(current_player, position)
-
-    game_board.bowl[P1] += game_board.get_pieces(P1)
-    game_board.bowl[P2] += game_board.get_pieces(P2)
+        if current_player == 0:
+            move = abAI.alpha_beta_search(game_board.deepcopy())
+            print(str(move))
+            current_player = game_board.move(current_player, move)
+        else :
+            position = int(input(f"P{current_player + 1}'s turn >"))
+            position = (position - 1) + (current_player * 6)
+            current_player = game_board.move(current_player, position)
 
     if game_board.get_score(P1) > game_board.get_score(P2):
         print(f"Player 1 wins!")

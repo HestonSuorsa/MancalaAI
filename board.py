@@ -44,7 +44,11 @@ class Board:
 
     # checks if someone's side has no more stones
     def is_gameover(self):
-        return self.get_pieces(0) == 0 or self.get_pieces(1) == 0
+        if (self.get_pieces(0) == 0 or self.get_pieces(1) == 0) :
+            self.bowl[0] += self.get_pieces(0)
+            self.bowl[1] += self.get_pieces(1)
+            return True
+        return False
 
     def print_both_scores(self):
         print(f'P1 - {self.bowl(0)} | P2 - {self.bowl(1)}')
@@ -61,8 +65,10 @@ class Board:
         layout += '|\n       |  1 --> 6      P1: ' + str(self.bowl[0]) + '\n--------------------------------'
         return layout
         
-    def deepcopy(board):
+    def deepcopy(self):
         new_board = Board()
-        new_board.board = board.board
-        new_board.bowl = board.bowl
-        return
+        for i in range(len(self.board)) :
+            new_board.board[i] = self.board[i]
+        for i in range(len(self.bowl)) :
+            new_board.bowl[i] = self.bowl[i]
+        return new_board
