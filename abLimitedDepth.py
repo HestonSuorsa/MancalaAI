@@ -1,4 +1,6 @@
 INFINITY = 1.0e400
+from copy import deepcopy
+from sre_constants import IN
 from board import Board
 
 class abLimitedDepth() :
@@ -7,25 +9,47 @@ class abLimitedDepth() :
     def __init__(self, player):
         self.player = player
 
-    def alpha-beta-search(board) :
-        v = max-value(board, -INFINITY, INFINITY)
+    def alpha_beta_search(board):
+        v = max_value(board, -INFINITY, INFINITY)
         # TODO: make it so it returns the index of the move we make, not the value of highest score
         return v
 
-    def max-value(board,alpha,beta) :
-        stop = cutoff-test(board)
+    def max_value(self, board, alpha, beta) :
+        stop = cutoff_test(board)
         if stop :
             return eval(board)
 
         v = -INFINITY
-        for a in len(board.board) :
-            v = max()
+        for a in len(board.board)/2 :
+            position = a + (self.player*6)
+            possible_board = deepcopy(board)
+            possible_board.move(self.player, position)
+            v = max(v, min_value(possible_board, alpha, beta))
+            if v >= beta :
+                return v
+            alpha = max(alpha, v)
 
-        position = (position - 1) + (current_player * 6)
+        return v
 
-    def cutoff-test(board) :
+    def min_value(self, board, alpha, beta) :
+        if cutoff_test(board) :
+            return eval(board)
+
+        v = INFINITY
+        for a in len(board.board)/2 :
+            position = a + (self.player*6)
+            possible_board = deepcopy(board)
+            possible_board.move(self.player, position)
+            v = min(v, max_value(possible_board, alpha, beta))
+            if v<= alpha :
+                return v
+            beta = min(beta, v)
+        
+        return v
+
+    def cutoff_test(board) :
         #TODO
-        return false
+        return False
 
     def eval(board) :
         return

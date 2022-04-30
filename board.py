@@ -62,5 +62,7 @@ class Board:
         return layout
         
     def deepcopy(board):
-        #TODO
+        new_board = Board()
+        new_board.board = board.board
+        new_board.bowl = board.bowl
         return
