@@ -4,6 +4,46 @@ from board import Board
 class abLimitedDepth() :
     #run with a limit of n
     #n can be set to infinity for full depth search
+    def __init__(self, player):
+        self.player = player
+
+    def alpha-beta-search(board) :
+        v = max-value(board, -INFINITY, INFINITY)
+        # TODO: make it so it returns the index of the move we make, not the value of highest score
+        return v
+
+    def max-value(board,alpha,beta) :
+        stop = cutoff-test(board)
+        if stop :
+            return eval(board)
+
+        v = -INFINITY
+        for a in len(board.board) :
+            v = max()
+
+        position = (position - 1) + (current_player * 6)
+
+    def cutoff-test(board) :
+        #TODO
+        return false
+
+    def eval(board) :
+        return
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
     def runABPruning(board, n):
         #run alphabetamove n times per player's move
         for i in n:
