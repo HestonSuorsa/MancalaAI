@@ -13,11 +13,13 @@ class abLimitedDepth() :
         self.chosen_move = -1
 
     def alpha_beta_search(self, board):
-        v = self.max_value(board, -INFINITY, INFINITY)
+        self.current_depth = 0
+        print("AI player num: " + str(self.player))
+        v = self.max_value(board, -INFINITY, INFINITY, self.player)
         # TODO: make it so it returns the index of the move we make, not the value of highest score
         return self.chosen_move
 
-    def max_value(self, board, alpha, beta) :
+    def max_value(self, board, alpha, beta, next_player) :
         self.current_depth += 1
         print("max current depth: " + str(self.current_depth) + "\n")
         stop = self.cutoff_test(board)
@@ -26,16 +28,19 @@ class abLimitedDepth() :
 
         v = -INFINITY
         for a in range(6) :
-            position = a + (self.player*6)
-            if board.board[position] != 0:
+            if board.board[a + (next_player*6)] != 0:
+                position = a + (next_player*6)
                 possible_board = board.deepcopy()
                 next_player = possible_board.move(self.player, position)
+                print("max move " + str(position))
+                print("Possible board at max depth " + str(self.current_depth) + ": " + str(possible_board))
                 if next_player != self.player:
-                    v = max(v, self.min_value(possible_board, alpha, beta))
+                    v = max(v, self.min_value(possible_board, alpha, beta, next_player))
                 else:
-                    v = max(v, self.max_value(possible_board, alpha, beta))
+                    v = max(v, self.max_value(possible_board, alpha, beta, next_player))
                 if v >= beta :
                     self.chosen_move = position
+                    self.current_depth -= 1
                     return v
                 alpha = max(alpha, v)
 
@@ -43,9 +48,11 @@ class abLimitedDepth() :
                     self.chosen_move = position
                     break
         self.chosen_move = position
+        self.current_depth -= 1
+        print("in max with chosen_move = " + str(self.chosen_move))
         return v
 
-    def min_value(self, board, alpha, beta) :
+    def min_value(self, board, alpha, beta, next_player) :
         self.current_depth += 1
         print("min current depth: " + str(self.current_depth) + "\n")
         if self.cutoff_test(board) :
@@ -53,20 +60,24 @@ class abLimitedDepth() :
 
         v = INFINITY
         for a in range(6) :
-            position = a + (self.player*6)
-            if board.board[position] != 0:
+            if board.board[a + (next_player*6)] != 0:
+                position = a + (next_player*6)
                 possible_board = board.deepcopy()
                 next_player = possible_board.move(self.player, position)
-                if next_player != self.player:
-                    v = min(v, self.max_value(possible_board, alpha, beta))
+                print("min move " + str(position))
+                print("Possible board at min depth " + str(self.current_depth) + ": " + str(possible_board))
+                if next_player == self.player:
+                    v = min(v, self.max_value(possible_board, alpha, beta, next_player))
                 else:
-                    v = min(v, self.min_value(possible_board, alpha, beta))
+                    v = min(v, self.min_value(possible_board, alpha, beta, next_player))
                 if v<= alpha :
+                    self.current_depth -= 1
                     return v
                 beta = min(beta, v)
 
                 if self.current_depth >= self.limit :
                     break
+        self.current_depth -= 1
         return v
 
     def cutoff_test(self, board) :

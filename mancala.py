@@ -11,7 +11,7 @@ if __name__ == '__main__':
     current_player = random.randint(0, 1)
 
     # AI player = 0
-    abAI = abLimitedDepth(10,0)
+    abAI = abLimitedDepth(50,0)
 
     while not game_board.is_gameover():
         print(game_board)
