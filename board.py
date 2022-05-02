@@ -25,7 +25,7 @@ class Board:
         # if last stone fell in current player's bowl, give him another turn
         if not fill_bowl:
             return player
-        elif self.board[position] == 1 and self.board[opposite] > 0:
+        elif self.board[position] == 1 and self.board[opposite] > 0 and player == self.side(position):
             self.bowl[player] += self.board[opposite] + 1
             self.board[opposite] = 0
             self.board[position] -= 1
@@ -76,3 +76,8 @@ class Board:
         for i in range(len(self.bowl)) :
             new_board.bowl[i] = self.bowl[i]
         return new_board
+
+    def side(self, position):
+        if position < 6:
+            return 0
+        return 1
