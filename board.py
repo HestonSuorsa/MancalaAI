@@ -55,7 +55,7 @@ class Board:
         return False
 
     def print_both_scores(self):
-        print(f'P1 - {self.bowl(0)} | P2 - {self.bowl(1)}')
+        print(f'P1 - {self.bowl[0]} | P2 - {self.bowl[1]}')
 
     def __repr__(self):
         layout = '------------------------------\n'

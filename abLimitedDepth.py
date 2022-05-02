@@ -8,6 +8,7 @@ class abLimitedDepth() :
     #n can be set to infinity for full depth search
     def __init__(self, limit, player):
         self.player = player
+        self.opponent = (player + 1) % 2
         self.limit = limit
         self.current_depth = 0
         self.chosen_move = -1
@@ -15,11 +16,11 @@ class abLimitedDepth() :
     def alpha_beta_search(self, board):
         self.current_depth = 0
         print("AI player num: " + str(self.player))
-        v = self.max_value(board, -INFINITY, INFINITY, self.player)
+        v = self.max_value(board, -INFINITY, INFINITY)
         # TODO: make it so it returns the index of the move we make, not the value of highest score
         return self.chosen_move
 
-    def max_value(self, board, alpha, beta, next_player) :
+    def max_value(self, board, alpha, beta) :
         self.current_depth += 1
         print("max current depth: " + str(self.current_depth) + "\n")
         stop = self.cutoff_test(board)
@@ -28,16 +29,17 @@ class abLimitedDepth() :
 
         v = -INFINITY
         for a in range(6) :
-            if board.board[a + (next_player*6)] != 0:
-                position = a + (next_player*6)
+            if board.board[a + (self.player*6)] != 0:
+                position = a + (self.player*6)
+                print("Player: " + str(self.player) + " Possible Move: " + str(position))
                 possible_board = board.deepcopy()
                 next_player = possible_board.move(self.player, position)
-                print("max move " + str(position))
-                print("Possible board at max depth " + str(self.current_depth) + ": " + str(possible_board))
+                # print("max move " + str(position))
+                # print("Possible board at max depth " + str(self.current_depth) + ": " + str(possible_board))
                 if next_player != self.player:
-                    v = max(v, self.min_value(possible_board, alpha, beta, next_player))
+                    v = max(v, self.min_value(possible_board, alpha, beta))
                 else:
-                    v = max(v, self.max_value(possible_board, alpha, beta, next_player))
+                    v = max(v, self.max_value(possible_board, alpha, beta))
                 if v >= beta :
                     self.chosen_move = position
                     self.current_depth -= 1
@@ -52,24 +54,24 @@ class abLimitedDepth() :
         print("in max with chosen_move = " + str(self.chosen_move))
         return v
 
-    def min_value(self, board, alpha, beta, next_player) :
+    def min_value(self, board, alpha, beta) :
         self.current_depth += 1
-        print("min current depth: " + str(self.current_depth) + "\n")
+        # print("min current depth: " + str(self.current_depth) + "\n")
         if self.cutoff_test(board) :
             return self.get_score(board)
 
         v = INFINITY
         for a in range(6) :
-            if board.board[a + (next_player*6)] != 0:
-                position = a + (next_player*6)
+            if board.board[a + (self.opponent*6)] != 0:
+                position = a + (self.opponent*6)
                 possible_board = board.deepcopy()
-                next_player = possible_board.move(self.player, position)
-                print("min move " + str(position))
-                print("Possible board at min depth " + str(self.current_depth) + ": " + str(possible_board))
+                next_player = possible_board.move(self.opponent, position)
+                # print("min move " + str(position))
+                # print("Possible board at min depth " + str(self.current_depth) + ": " + str(possible_board))
                 if next_player == self.player:
-                    v = min(v, self.max_value(possible_board, alpha, beta, next_player))
+                    v = min(v, self.max_value(possible_board, alpha, beta))
                 else:
-                    v = min(v, self.min_value(possible_board, alpha, beta, next_player))
+                    v = min(v, self.min_value(possible_board, alpha, beta))
                 if v<= alpha :
                     self.current_depth -= 1
                     return v
