@@ -33,8 +33,7 @@ class Board:
         return (player + 1) % 2
 
     def is_valid_move(self, position):
-        #TODO: return true if valid, false else
-        return (position >= 0 and self.board[position] > 0)
+        return position >= 0 and self.board[position] > 0
         
     def get_score(self, player):
         return self.bowl[player]

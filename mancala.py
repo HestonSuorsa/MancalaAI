@@ -11,15 +11,16 @@ if __name__ == '__main__':
     current_player = random.randint(0, 1)
 
     # AI player = 0
-    abAI = abLimitedDepth(50, 0)
+    abAI = abLimitedDepth(10, 0)
 
     while not game_board.is_gameover():
         print(game_board)
-        if current_player == 0:
+        if current_player == 1:
             move = abAI.alpha_beta_search(game_board.deepcopy())
-            print(str(move))
+            print("AI picked: " + str(move))
+            move = move + (current_player * 6)
             current_player = game_board.move(current_player, move)
-        else :
+        else:
             position = int(input(f"P{current_player + 1}'s turn >"))
             position = (position - 1) + (current_player * 6)
             current_player = game_board.move(current_player, position)
