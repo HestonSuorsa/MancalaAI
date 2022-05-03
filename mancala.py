@@ -3,6 +3,7 @@ from abFullDepth import abFullDepth
 from abLimitedDepth import abLimitedDepth
 from abAggressive import abAggressive
 from abTimeLimit import abTimeLimit
+from fullAggressive import fullAggressive
 
 from board import Board
 from humanInput import humanInput
@@ -16,9 +17,11 @@ def choose_method(player, code):
     elif code == 3:
         return abLimitedDepth(10, player)
     elif code == 4:
-        return abTimeLimit(60, player)
+        return abTimeLimit(200, player)
     elif code == 5:
-        return abAggressive(10, player, 50)
+        return abAggressive(12, player, 1)
+    elif code == 6:
+        return fullAggressive(player)
 
 
 def play_game(p1_int, p2_int):
@@ -57,9 +60,10 @@ def prompt_user(player):
           "[3] Depth Limited Alpha-Beta Pruning\n"
           "[4] Time Limited Alpha-Beta Pruning\n"
           "[5] Aggressive Alpha-Beta Pruning\n"
-          "[6] Quit\n")
+          "[6] Fully Aggressive Algorithm\n"
+          "[7] Quit\n")
     resp = int(input('Mancala >>'))
-    if resp not in [1, 2, 3, 4, 5, 6]:
+    if resp not in [1, 2, 3, 4, 5, 6, 7]:
         raise ValueError("Invalid response")
     return resp
 
@@ -73,10 +77,10 @@ if __name__ == '__main__':
     while True:
         try:
             p1_choice = prompt_user(P1)
-            if p1_choice == 6:
+            if p1_choice == 7:
                 break
             p2_choice = prompt_user(P2)
-            if p2_choice == 6:
+            if p2_choice == 7:
                 break
             play_game(p1_choice, p2_choice)
         except ValueError:

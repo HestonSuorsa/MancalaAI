@@ -7,10 +7,10 @@ INFINITY = 1.0e400
 class abTimeLimit:
     # run with a limit of n
     # n can be set to infinity for full depth search
-    def __init__(self, time_limit_seconds, player):
+    def __init__(self, time_limit_ns, player):
         self.player = player
         self.opponent = (player + 1) % 2
-        self.time_limit = time_limit_seconds
+        self.time_limit = time_limit_ns
         self.seconds_passed = 0
         self.chosen_move = -1
         self.starttime = 0
@@ -20,10 +20,10 @@ class abTimeLimit:
 
     def alpha_beta_search(self, board):
         # print("AI player num: " + str(self.player))
-        self.starttime = time.perf_counter()
+        self.starttime = time.time_ns() 
         v = self.max_value(board, -INFINITY, INFINITY, 0)
         # TODO: make it so it returns the index of the move we make, not the value of highest score
-        print(str(time.perf_counter() - self.starttime))
+        print(str(time.time_ns() - self.starttime))
         return self.chosen_move
 
     def max_value(self, board, alpha, beta, depth):
@@ -79,7 +79,7 @@ class abTimeLimit:
 
     def cutoff_test(self, board, depth):
         # check win, loss, one side F LIMIT
-        return board.is_gameover() or ((time.perf_counter() - self.starttime) > self.time_limit)
+        return board.is_gameover() or ((time.time_ns()  - self.starttime) > self.time_limit)
 
     def get_score(self, board):
         return board.get_score(self.player)
