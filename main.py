@@ -135,7 +135,7 @@ def main():
         # if the current player has a move, else switch
         if board.has_move(current_player):
             # not ai turn, user turn
-            if current_player != 1:#ai.player:
+            if current_player != 1:  # ai.player:
                 move = ''
                 next = current_player
                 while current_player == next and board.has_move(current_player) and move != 'quit':

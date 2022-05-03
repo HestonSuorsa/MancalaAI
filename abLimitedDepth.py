@@ -1,3 +1,5 @@
+
+
 INFINITY = 1.0e400
 
 
@@ -9,6 +11,9 @@ class abLimitedDepth:
         self.opponent = (player + 1) % 2
         self.limit = limit
         self.chosen_move = -1
+
+    def get_move(self, board):
+        return self.alpha_beta_search(board.deepcopy())
 
     def alpha_beta_search(self, board):
         # print("AI player num: " + str(self.player))

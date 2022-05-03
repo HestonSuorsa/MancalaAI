@@ -1,6 +1,10 @@
 from board import Board
-INFINITY = 1.0e400
+
 import random
+
+
+INFINITY = 1.0e400
+
 
 class abAggressive:
     def __init__(self, limit, player, percent_aggressive):
@@ -9,6 +13,9 @@ class abAggressive:
         self.limit = limit
         self.chosen_move = -1
         self.percent_aggressive = percent_aggressive
+
+    def get_move(self, board):
+        return self.alpha_beta_search(board.deepcopy())
 
     def alpha_beta_search(self, board):
         # print("AI player num: " + str(self.player))
@@ -29,10 +36,11 @@ class abAggressive:
                 # print("Player: " + str(self.player) + " Possible Move: " + str(position))
                 possible_board = board.deepcopy()
 
-                #Random time
-                rand_num = random.randint(0,99)
+                # Random time
+                rand_num = random.randint(0, 99)
                 if rand_num < self.percent_aggressive:
-                    position = self.aggressive(possible_board)  # choose position to not be the normal abPruning one but what would be the most greedy
+                    position = self.aggressive(
+                        possible_board)  # choose position to not be the normal abPruning one but what would be the most greedy
 
                 next_player = possible_board.move(self.player, position)
 
@@ -82,19 +90,19 @@ class abAggressive:
         return board.get_score(self.player)
 
     def aggressive(self, board):
-        optimum = None #optimum eval func should be highest always
+        optimum = None  # optimum eval func should be highest always
         chosen_move = -1
         for i in range(6):
             if board.board[i + (self.player * 6)] == 0:
                 continue
             possible_board = board.deepcopy()
             position = i + (self.player * 6)
-            next_player = possible_board.move(self.player, position) #Move name not required but is: move_name_map[pl] + str(i+2)
+            next_player = possible_board.move(self.player,
+                                              position)  # Move name not required but is: move_name_map[pl] + str(i+2)
             # if not optimum:
-                # print("first pass aggressive")
-            if not optimum or optimum.get_score(self.player)<possible_board.get_score(self.player):
+            # print("first pass aggressive")
+            if not optimum or optimum.get_score(self.player) < possible_board.get_score(self.player):
                 optimum = possible_board
                 chosen_move = position
 
         return chosen_move
-        
