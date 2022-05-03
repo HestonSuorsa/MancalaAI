@@ -16,14 +16,14 @@ if __name__ == '__main__':
     # AI player = 0
     # abAI = abLimitedDepth(10, 1)
     # abAI = abFullDepth(1)
-    abAI = abAggressive(1, 1)
+    abAI = abAggressive(10, 1, 1)
     # abAI = abTimeLimit(60,1)
 
     while not game_board.is_gameover():
         print(game_board)
         if current_player == 1:
-            # move = abAI.alpha_beta_search(game_board.deepcopy())
-            move = abAI.aggressive(game_board.deepcopy())
+            move = abAI.alpha_beta_search(game_board.deepcopy())
+            # move = abAI.aggressive(game_board.deepcopy())
             print("AI picked: " + str(move))
             current_player = game_board.move(current_player, move)
         else:

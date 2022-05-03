@@ -3,9 +3,10 @@ INFINITY = 1.0e400
 import random
 
 class abAggressive:
-    def __init__(self, player, percent_aggressive):
+    def __init__(self, limit, player, percent_aggressive):
         self.player = player
         self.opponent = (player + 1) % 2
+        self.limit = limit
         self.chosen_move = -1
         self.percent_aggressive = percent_aggressive
 
@@ -34,8 +35,6 @@ class abAggressive:
                     position = self.aggressive(possible_board)  # choose position to not be the normal abPruning one but what would be the most greedy
 
                 next_player = possible_board.move(self.player, position)
-                # print("max move " + str(position))
-                # print("Possible board at max depth " + str(self.current_depth) + ": " + str(possible_board))
 
                 if next_player != self.player:
                     v = max(v, self.min_value(possible_board, alpha, beta, depth + 1))
@@ -77,17 +76,13 @@ class abAggressive:
 
     def cutoff_test(self, board, depth):
         # check win, loss, one side F limit
-        return board.is_gameover()
+        return board.is_gameover() or depth >= self.limit
 
     def get_score(self, board):
         return board.get_score(self.player)
 
-
-
     def aggressive(self, board):
         optimum = None #optimum eval func should be highest always
-        # 0 to 5 or 6 to 11?
-        # for i in range(0, board.boardsize-2):
         chosen_move = -1
         for i in range(6):
             if board.board[i + (self.player * 6)] == 0:
