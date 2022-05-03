@@ -11,7 +11,7 @@ class Board:
             return player
         self.board[position] = 0
         while num_stones > 0:
-            if (((position + 1) == 6 and player == 0) or ((position + 1) == len(self.board))) and fill_bowl:
+            if (((position + 1) == 6 and player == 0) or ((position + 1) == len(self.board) and player == 1)) and fill_bowl:
                 self.bowl[player] += 1
                 num_stones -= 1
                 fill_bowl = False

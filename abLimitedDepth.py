@@ -25,7 +25,7 @@ class abLimitedDepth:
         for a in range(6):
             if board.is_valid_move(a + (self.player * 6)):
                 position = a + (self.player * 6)
-                print(f"Attempting move on {position} - Value at {position} is {board.board[position]}")
+                # print(f"Attempting move on {position} - Value at {position} is {board.board[position]}")
                 # print("Player: " + str(self.player) + " Possible Move: " + str(position))
                 possible_board = board.deepcopy()
                 next_player = possible_board.move(self.player, position)
